@@ -1,0 +1,23 @@
+<div class="home">
+  <div *ngIf="catData" class="home__box">
+    <img id="i" class="home__photo" [src]="catData.url" alt="Random Cat" />
+
+    <div class="home__buttons">
+      <app-button
+        icon="heart"
+        [buttonType]="buttonType.Fab"
+        color="warn"
+        class="home__like-btn"
+        (clicked)="onClickedLike()"
+      ></app-button>
+
+      <app-button
+        icon="exchange-alt"
+        [buttonType]="buttonType.Fab"
+        color="primary"
+        class="home__change-btn"
+        (clicked)="getRandomCat()"
+      ></app-button>
+    </div>
+  </div>
+</div>

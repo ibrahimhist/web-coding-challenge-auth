@@ -1,0 +1,60 @@
+.home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  position: relative;
+
+  &__box {
+    width: 25rem;
+    height: 25rem;
+    box-shadow: 0 1.5rem 4rem rgba(#000, 0.4);
+    border-radius: 2px;
+    z-index: 10;
+    transition: all 0.2s;
+    position: relative;
+    background-color: #000;
+    // border-radius: var(--border-radius-small);
+  }
+
+  &__box:hover &__photo {
+    transform: scale(1.1);
+    filter: blur(1.5px) brightness(85%);
+    object-fit: cover;
+  }
+
+  &__box:hover &__like-btn,
+  &__box:hover &__change-btn {
+    opacity: 1;
+  }
+
+  &__photo {
+    // object-fit: contain;
+    object-fit: scale-down;
+    width: 100%;
+    height: 100%;
+    transition: all 0.2s;
+  }
+
+  &__buttons {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+
+    display: flex;
+
+    justify-content: space-around;
+    align-items: center;
+    // flex-direction: column;
+  }
+
+  &__change-btn {
+    opacity: 0;
+  }
+
+  &__like-btn {
+    opacity: 0;
+  }
+}

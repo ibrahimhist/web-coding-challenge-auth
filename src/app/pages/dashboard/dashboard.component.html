@@ -1,0 +1,22 @@
+<div class="app-menu-container">
+  <div class="app-menu-list">
+    <div *ngFor="let item of newMenuList" class="app-menu-item">
+      <div class="app-menu-item__header">{{ item.text }}</div>
+      <div class="app-menu-item__boxes">
+        <ng-container *ngFor="let childItem of item.children">
+          <div
+            *ngIf="!childItem.hide"
+            class="app-menu-item__box"
+            (click)="onClickMenu(childItem)"
+          >
+            <app-icon
+              [icon]="childItem.icon"
+              class="app-menu-item__box-icon"
+            ></app-icon>
+            <span class="app-menu-item__box-text">{{ childItem.text }}</span>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
