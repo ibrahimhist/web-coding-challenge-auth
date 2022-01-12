@@ -52,7 +52,7 @@ export class StorageService implements OnDestroy {
   public getStorageItem(
     storageKey: StorageKey,
     storageType?: StorageType
-  ): string | null {
+  ): any | string | null {
     const storage: Storage = this.getStorage(storageType);
     if (storage) {
       let value = storage.getItem(storageKey);

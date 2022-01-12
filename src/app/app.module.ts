@@ -21,6 +21,8 @@ import { BaseHttpService } from './shared/services/base-http.service';
 import { OpenApiService } from './shared/services/open-api.service';
 import { AuthService } from './shared/services/auth.service';
 import { StorageService } from './shared/services/storage.service';
+import { LoginGuard } from './shared/guards/login.guard';
+import { UserService } from './shared/services/user.service';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import { StorageService } from './shared/services/storage.service';
     OpenApiService,
     AuthService,
     StorageService,
+    LoginGuard,
+    UserService,
   ],
   bootstrap: [AppComponent],
 })
