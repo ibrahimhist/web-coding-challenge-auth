@@ -116,10 +116,18 @@
     </div>
 
     <div *ngIf="authFormType === 'sign-up'" class="auth-form__btn-extra">
-      <app-button text="Sign In" (clicked)="onClickSignIn()"></app-button>
+      <app-button
+        id="sign-in-helper-btn"
+        text="Sign In"
+        (clicked)="onClickSignIn()"
+      ></app-button>
     </div>
     <div *ngIf="authFormType === 'sign-in'" class="auth-form__btn-extra">
-      <app-button text="Sign Up" (clicked)="onClickSignUp()"></app-button>
+      <app-button
+        id="sign-up-helper-btn"
+        text="Sign Up"
+        (clicked)="onClickSignUp()"
+      ></app-button>
     </div>
   </div>
 </div>
