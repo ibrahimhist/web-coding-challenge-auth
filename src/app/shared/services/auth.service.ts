@@ -14,6 +14,7 @@ import { environment } from '../../../environments/environment';
 import { AuthFormModel } from '../models/auth-form.model';
 import { BaseHttpResponse } from '../models/base-http-response.model';
 import { UserProfile } from '../models/user-profile.model';
+import { MessageHandlingService } from './message-handling.service';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,8 @@ export class AuthService extends BaseHttpService {
     protected httpClient: HttpClient,
     private router: Router,
     private storageService: StorageService,
-    private userService: UserService
+    private userService: UserService,
+    private messageHandlingService: MessageHandlingService
   ) {
     super(httpClient);
     this.isLoggedInSubject.next(this.isLoggedIn());
@@ -43,11 +45,12 @@ export class AuthService extends BaseHttpService {
   }
 
   storeToken(_id: string): void {
-    this.storageService.store(
-      StorageKey.AccessToken,
-      _id,
-      StorageType.LocalStorage
-    );
+    if (_id)
+      this.storageService.store(
+        StorageKey.AccessToken,
+        _id,
+        StorageType.LocalStorage
+      );
   }
 
   isLoggedIn(): boolean {
@@ -59,6 +62,15 @@ export class AuthService extends BaseHttpService {
   }
 
   signUp(data: AuthFormModel, returnUrl?: string) {
+    if (
+      !data ||
+      !data.email ||
+      !data.firstName ||
+      !data.lastName ||
+      !data.password
+    )
+      return;
+
     this.httpPost<UserProfile>(environment.apiUrl + '/users', {
       ...data,
       password: btoa(data.password),
@@ -69,6 +81,11 @@ export class AuthService extends BaseHttpService {
         this.userService.setUser(result);
         this.isLoggedInSubject.next(true);
         this.router.navigate([returnUrl || '/']);
+        this.messageHandlingService.showSuccessMessage(
+          'Lets get fun!',
+          'Welcome to Challenge App',
+          true
+        );
       }
     });
   }
@@ -92,8 +109,7 @@ export class AuthService extends BaseHttpService {
   }
 }
 
-// this.router.navigate([returnUrl || '/']);
-// this.isLoggedInSubject.next(true);
-// console.log(environment.apiUrl);
-
-// // this.httpPost();
+//to-do:
+// password +  password confirmation
+// after sign up confirmation
+// service and sign-up tests
