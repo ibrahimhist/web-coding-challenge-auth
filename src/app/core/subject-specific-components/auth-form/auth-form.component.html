@@ -12,35 +12,47 @@
         class="auth-form__header-box auth-form__header-box--2 auth-form__header-box--animated-enter"
       >
         <h2 class="auth-form__heading">{{ formSettings?.header }}</h2>
+        <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+          <input
+            placeholder="First Name"
+            spellcheck="false"
+            class="input input--light input--regular"
+            name="firstName"
+            formControlName="firstName"
+          />
+          <input
+            placeholder="Last Name"
+            spellcheck="false"
+            class="input input--light input--regular"
+            name="lastName"
+            formControlName="lastName"
+          />
+          <input
+            placeholder="Email"
+            spellcheck="false"
+            type="email"
+            class="input input--light input--regular"
+            name="email"
+            formControlName="email"
+          />
+          <input
+            placeholder="Password"
+            type="password"
+            spellcheck="false"
+            class="input input--light input--regular"
+            name="password"
+            formControlName="password"
+          />
+        </form>
 
-        <input
-          placeholder="First Name"
-          spellcheck="false"
-          class="input input--light input--regular"
-        />
-        <input
-          placeholder="Last Name"
-          spellcheck="false"
-          class="input input--light input--regular"
-        />
-        <input
-          placeholder="Email"
-          spellcheck="false"
-          type="email"
-          class="input input--light input--regular"
-        />
-        <input
-          placeholder="Password"
-          type="password"
-          spellcheck="false"
-          class="input input--light input--regular"
-        />
+        {{ authForm.errors | json }}
       </div>
     </div>
 
     <div class="auth-form__buttons">
       <div class="auth-form__btn">
         <app-button
+          [disabled]="authForm.invalid"
           color="primary"
           [buttonType]="buttonType.Flat"
           [icon]="formSettings?.buttonIcon"

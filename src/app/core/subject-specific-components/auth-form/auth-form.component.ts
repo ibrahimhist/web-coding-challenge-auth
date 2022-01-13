@@ -1,11 +1,7 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ButtonType } from '@app/shared/enums/button-type.enum';
+import { getPasswordStrengthValidator } from '@app/shared/validators/password-strength.validator';
 
 type FomrSettings = {
   icon: string;
@@ -45,8 +41,22 @@ export class AuthFormComponent implements OnChanges {
 
   formSettings: FomrSettings;
   buttonType = ButtonType;
+  authForm: FormGroup;
 
-  constructor() {}
+  constructor() {
+    this.authForm = new FormGroup(
+      {
+        firstName: new FormControl('', [Validators.required]),
+        lastName: new FormControl('', [Validators.required]),
+        email: new FormControl('', [Validators.email, Validators.required]),
+        password: new FormControl('', [
+          Validators.minLength(8),
+          Validators.required,
+        ]),
+      },
+      getPasswordStrengthValidator()
+    );
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
@@ -57,4 +67,6 @@ export class AuthFormComponent implements OnChanges {
       this.formSettings = types[this.authFormType];
     }
   }
+
+  onSubmit(): void {}
 }
