@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ButtonType } from '@app/shared/enums/button-type.enum';
+import { AuthFormModel } from '@app/shared/models/auth-form.model';
+import { AuthService } from '@app/shared/services/auth.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -7,7 +10,17 @@ import { ButtonType } from '@app/shared/enums/button-type.enum';
   styleUrls: ['./sign-up.component.scss'],
 })
 export class SignUpComponent implements OnInit {
-  constructor() {}
+  constructor(
+    private authService: AuthService,
+    private route: ActivatedRoute
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.authService.signOut();
+  }
+
+  onSubmitted(data: AuthFormModel): void {
+    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.authService.signUp(data, returnUrl);
+  }
 }

@@ -1,1 +1,4 @@
-<app-auth-form authFormType="sign-in"></app-auth-form>
+<app-auth-form
+  authFormType="sign-in"
+  (submitted)="onSubmitted($event)"
+></app-auth-form>

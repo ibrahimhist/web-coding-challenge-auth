@@ -29,7 +29,7 @@ export class VoteCatComponent {
     this.openApiService
       .getRandomCat<any>()
       .subscribe((baseHttpResponse: BaseHttpResponse<any[]>) => {
-        const result = baseHttpResponse.ServiceResult.Result;
+        const result = baseHttpResponse.serviceResult.result;
         this.catData = result[0];
       });
   }

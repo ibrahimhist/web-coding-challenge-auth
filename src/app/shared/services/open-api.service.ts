@@ -18,8 +18,8 @@ export class OpenApiService extends BaseHttpService {
 
   likeCat<T>(imageId: string) {
     const header: HeaderParameter = {
-      Name: HeaderName.XApiKey,
-      Value: ' 6ee743d1-d3d9-4b7a-ae8d-3277890a690d',
+      name: HeaderName.XApiKey,
+      value: ' 6ee743d1-d3d9-4b7a-ae8d-3277890a690d',
     };
 
     const data = {

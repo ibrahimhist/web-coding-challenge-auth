@@ -21,7 +21,7 @@
               *ngIf="
                 firstName &&
                 firstName.invalid &&
-                (firstName.dirty || firstName.touched || submitted)
+                (firstName.dirty || firstName.touched || submitClicked)
               "
               >Name is required</mat-error
             >
@@ -35,10 +35,10 @@
             />
             <mat-error
               *ngIf="
-                submitted &&
+                submitClicked &&
                 lastName &&
                 lastName.invalid &&
-                (lastName.dirty || lastName.touched || submitted)
+                (lastName.dirty || lastName.touched || submitClicked)
               "
               >Last Name is required</mat-error
             >
@@ -58,7 +58,7 @@
               email &&
               email.errors &&
               email.errors['required'] &&
-              (email.dirty || email.touched || submitted)
+              (email.dirty || email.touched || submitClicked)
             "
             >Email is required</mat-error
           >
@@ -68,7 +68,7 @@
               email &&
               email.errors &&
               email.errors['email'] &&
-              (email.dirty || email.touched || submitted)
+              (email.dirty || email.touched || submitClicked)
             "
             >Email is invalid</mat-error
           >
@@ -87,7 +87,7 @@
               password &&
               password.errors &&
               password.errors['required'] &&
-              (password.dirty || password.touched || submitted)
+              (password.dirty || password.touched || submitClicked)
             "
             >Password is required</mat-error
           >
@@ -96,7 +96,7 @@
             *ngIf="
               authForm &&
               authForm.errors &&
-              (password.dirty || password.touched || submitted)
+              (password.dirty || password.touched || submitClicked)
             "
           >
             {{ passwordError }}

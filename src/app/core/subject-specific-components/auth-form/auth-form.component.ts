@@ -1,4 +1,11 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -8,6 +15,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ButtonType } from '@app/shared/enums/button-type.enum';
+import { AuthFormModel } from '@app/shared/models/auth-form.model';
 import { getPasswordStrengthValidator } from '@app/shared/validators/password-strength.validator';
 
 type FomrSettings = {
@@ -45,11 +53,13 @@ const types: { [key: string]: FomrSettings } = {
 })
 export class AuthFormComponent implements OnChanges {
   @Input() authFormType: 'sign-in' | 'sign-up' | 'update';
+  @Output() submitted: EventEmitter<AuthFormModel> =
+    new EventEmitter<AuthFormModel>();
 
   formSettings: FomrSettings;
   buttonType = ButtonType;
   authForm: FormGroup;
-  submitted = false;
+  submitClicked = false;
 
   constructor(private router: Router) {}
 
@@ -116,10 +126,11 @@ export class AuthFormComponent implements OnChanges {
   }
 
   onSubmit(): void {
-    this.submitted = true;
+    this.submitClicked = true;
     if (this.authForm.valid) {
+      console.log(this.authForm.value);
+      this.submitted.emit(this.authForm.value);
     }
-    console.log(this.authForm);
   }
 
   onClickSignIn(): void {

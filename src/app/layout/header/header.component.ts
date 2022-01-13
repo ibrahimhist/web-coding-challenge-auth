@@ -40,7 +40,7 @@ export class HeaderComponent implements OnDestroy {
   }
 
   onClickLogout(): void {
-    this.authService.signOut();
+    this.authService.signOut(true);
   }
 
   ngOnDestroy(): void {

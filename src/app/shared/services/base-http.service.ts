@@ -115,8 +115,8 @@ export class BaseHttpService {
     if (headerParameters) {
       headerParameters.forEach((headerParameter: HeaderParameter) => {
         newHeaders = newHeaders.append(
-          headerParameter.Name,
-          headerParameter.Value
+          headerParameter.name,
+          headerParameter.value
         );
       });
     }
@@ -145,12 +145,13 @@ export class BaseHttpService {
 
     let result: T = response.body || (response as any);
 
+    // statusCode, isSuccess will be implements later on
     const baseHttpResponse: BaseHttpResponse<T> = {
-      ServiceResult: {
-        IsSuccess: true,
-        Result: result,
-        StatusCode: 200,
-        FileName: filename,
+      serviceResult: {
+        isSuccess: true,
+        result: result,
+        statusCode: 200,
+        fileName: filename,
       },
     };
 
