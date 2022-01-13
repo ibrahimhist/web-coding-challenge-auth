@@ -13,6 +13,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { MaterialModule } from '@app/shared/modules/material/material.module';
 
 import { CoreComponents } from './core-components.index';
+import { AuthFormComponent } from './subject-specific-components/auth-form/auth-form.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,7 @@ import { CoreComponents } from './core-components.index';
     MaterialModule,
     FontAwesomeModule,
   ],
-  declarations: [CoreComponents],
+  declarations: [CoreComponents, AuthFormComponent],
   exports: [CoreComponents],
 })
 export class CoreModule {

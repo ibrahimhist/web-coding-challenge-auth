@@ -1,0 +1,52 @@
+<div class="auth-form-container">
+  <div class="auth-form">
+    <div class="auth-form__avatar">
+      <app-icon
+        [icon]="formSettings?.icon"
+        class="auth-form__icon auth-form__icon-email auth-form__icon-email--activated"
+      ></app-icon>
+    </div>
+
+    <div class="auth-form__header">
+      <div
+        class="auth-form__header-box auth-form__header-box--2 auth-form__header-box--animated-enter"
+      >
+        <h2 class="auth-form__heading">{{ formSettings?.header }}</h2>
+
+        <input
+          placeholder="First Name"
+          spellcheck="false"
+          class="input input--light input--regular"
+        />
+        <input
+          placeholder="Last Name"
+          spellcheck="false"
+          class="input input--light input--regular"
+        />
+        <input
+          placeholder="Email"
+          spellcheck="false"
+          type="email"
+          class="input input--light input--regular"
+        />
+        <input
+          placeholder="Password"
+          type="password"
+          spellcheck="false"
+          class="input input--light input--regular"
+        />
+      </div>
+    </div>
+
+    <div class="auth-form__buttons">
+      <div class="auth-form__btn">
+        <app-button
+          color="primary"
+          [buttonType]="buttonType.Flat"
+          [icon]="formSettings?.buttonIcon"
+          [text]="formSettings?.buttonText"
+        ></app-button>
+      </div>
+    </div>
+  </div>
+</div>
