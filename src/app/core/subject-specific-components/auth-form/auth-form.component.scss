@@ -12,6 +12,10 @@
   width: 100%;
   min-height: 40rem;
 
+  form {
+    text-align: left;
+  }
+
   &__avatar {
     width: 6rem;
     height: 6rem;
@@ -30,77 +34,15 @@
     text-align: center;
   }
 
-  &__icon-email {
-    transform: translateY(-75%);
-    position: absolute;
-    opacity: 0;
-    transition: all 0.3s;
-
-    &--activated {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-
-  &__icon-person {
-    transition: all 0.3s;
-
-    &--activated {
-      transform: translateY(75%);
-      opacity: 0;
-    }
-  }
-
   &__header {
     text-align: center;
     margin: 0 auto;
-    transition: all 0.3s;
-    opacity: 1;
-
     position: relative;
-
     margin-top: 2rem;
     margin-bottom: 4rem;
-
-    &-box {
-      transition: all 0.3s;
-
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden; /* hides backpart, animasyonun düzgün olması için*/
-
-      overflow: hidden;
-
-      &--1 {
-      }
-
-      &--2 {
-        width: 100%;
-        opacity: 0;
-        visibility: hidden;
-        height: 0;
-        input {
-          margin-top: 2rem;
-        }
-        margin-bottom: -2rem;
-      }
-
-      &--invisible {
-        opacity: 0;
-        visibility: hidden;
-        height: 0;
-      }
-
-      &--animated-enter {
-        opacity: 1;
-        visibility: visible;
-        height: auto;
-      }
-
-      &--animated-leave {
-        opacity: 0;
-        visibility: hidden;
-        height: 0;
-      }
+    width: 100%;
+    input {
+      margin-top: 2rem;
     }
   }
 
@@ -116,28 +58,17 @@
     color: var(--color-secondary-text);
   }
 
-  &__buttons {
-    transition: all 0.5s;
-
-    &--animated-move-in-bottom {
-      animation: moveInBottom 0.5s ease-out;
-      /* apply the styles up to 0% before the animation starts */
-      animation-fill-mode: backwards;
-    }
-  }
-
   &__btn {
     margin-bottom: 1rem;
     text-align: center;
   }
 
-  &__btn-back {
+  &__btn-extra {
     text-align: center;
   }
 }
 
 :host ::ng-deep {
-  .auth-form__google-btn,
   .auth-form__btn {
     .app-button {
       font-size: 1.6rem;

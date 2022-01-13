@@ -13,9 +13,9 @@ export function getPasswordStrengthValidator(): ValidatorFn {
     const hasUpperCase = /[A-Z]+/.test(password);
     const hasLowerCase = /[a-z]+/.test(password);
     const notContainFirstName =
-      password.toLocaleLowerCase().indexOf(firstName) === -1;
+      !firstName || password.toLocaleLowerCase().indexOf(firstName) === -1;
     const notContainLastName =
-      password.toLocaleLowerCase().indexOf(lastName) === -1;
+      !lastName || password.toLocaleLowerCase().indexOf(lastName) === -1;
 
     const passwordValid =
       hasUpperCase && hasLowerCase && notContainFirstName && notContainLastName;

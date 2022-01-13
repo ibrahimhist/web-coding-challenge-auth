@@ -1,64 +1,125 @@
 <div class="auth-form-container">
   <div class="auth-form">
     <div class="auth-form__avatar">
-      <app-icon
-        [icon]="formSettings?.icon"
-        class="auth-form__icon auth-form__icon-email auth-form__icon-email--activated"
-      ></app-icon>
+      <app-icon [icon]="formSettings?.icon" class="auth-form__icon"></app-icon>
     </div>
 
     <div class="auth-form__header">
-      <div
-        class="auth-form__header-box auth-form__header-box--2 auth-form__header-box--animated-enter"
-      >
+      <div class="auth-form__header-box">
         <h2 class="auth-form__heading">{{ formSettings?.header }}</h2>
-        <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="authForm">
+          <ng-container *ngIf="authFormType !== 'sign-in'">
+            <input
+              placeholder="*First Name"
+              spellcheck="false"
+              class="input input--light input--regular"
+              name="firstName"
+              formControlName="firstName"
+              autocomplete="off"
+            />
+            <mat-error
+              *ngIf="
+                firstName &&
+                firstName.invalid &&
+                (firstName.dirty || firstName.touched || submitted)
+              "
+              >Name is required</mat-error
+            >
+            <input
+              placeholder="*Last Name"
+              spellcheck="false"
+              class="input input--light input--regular"
+              name="lastName"
+              formControlName="lastName"
+              autocomplete="off"
+            />
+            <mat-error
+              *ngIf="
+                submitted &&
+                lastName &&
+                lastName.invalid &&
+                (lastName.dirty || lastName.touched || submitted)
+              "
+              >Last Name is required</mat-error
+            >
+          </ng-container>
+
           <input
-            placeholder="First Name"
-            spellcheck="false"
-            class="input input--light input--regular"
-            name="firstName"
-            formControlName="firstName"
-          />
-          <input
-            placeholder="Last Name"
-            spellcheck="false"
-            class="input input--light input--regular"
-            name="lastName"
-            formControlName="lastName"
-          />
-          <input
-            placeholder="Email"
+            placeholder="*Email"
             spellcheck="false"
             type="email"
             class="input input--light input--regular"
             name="email"
             formControlName="email"
+            autocomplete="off"
           />
+          <mat-error
+            *ngIf="
+              email &&
+              email.errors &&
+              email.errors['required'] &&
+              (email.dirty || email.touched || submitted)
+            "
+            >Email is required</mat-error
+          >
+
+          <mat-error
+            *ngIf="
+              email &&
+              email.errors &&
+              email.errors['email'] &&
+              (email.dirty || email.touched || submitted)
+            "
+            >Email is invalid</mat-error
+          >
+
           <input
-            placeholder="Password"
+            placeholder="*Password"
             type="password"
             spellcheck="false"
             class="input input--light input--regular"
             name="password"
             formControlName="password"
+            autocomplete="off"
           />
-        </form>
+          <mat-error
+            *ngIf="
+              password &&
+              password.errors &&
+              password.errors['required'] &&
+              (password.dirty || password.touched || submitted)
+            "
+            >Password is required</mat-error
+          >
 
-        {{ authForm.errors | json }}
+          <mat-error
+            *ngIf="
+              authForm &&
+              authForm.errors &&
+              (password.dirty || password.touched || submitted)
+            "
+          >
+            {{ passwordError }}
+          </mat-error>
+        </form>
       </div>
     </div>
 
-    <div class="auth-form__buttons">
-      <div class="auth-form__btn">
-        <app-button
-          [disabled]="authForm.invalid"
-          color="primary"
-          [buttonType]="buttonType.Flat"
-          [icon]="formSettings?.buttonIcon"
-          [text]="formSettings?.buttonText"
-        ></app-button>
-      </div>
+    <div class="auth-form__btn">
+      <app-button
+        color="primary"
+        [buttonType]="buttonType.Flat"
+        [icon]="formSettings?.buttonIcon"
+        [text]="formSettings?.buttonText"
+        (clicked)="onSubmit()"
+      ></app-button>
+    </div>
+
+    <div *ngIf="authFormType === 'sign-up'" class="auth-form__btn-extra">
+      <app-button text="Sign In" (clicked)="onClickSignIn()"></app-button>
+    </div>
+    <div *ngIf="authFormType === 'sign-in'" class="auth-form__btn-extra">
+      <app-button text="Sign Up" (clicked)="onClickSignUp()"></app-button>
     </div>
   </div>
 </div>

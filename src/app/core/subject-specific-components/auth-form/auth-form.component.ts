@@ -1,5 +1,12 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
+import { Router } from '@angular/router';
 import { ButtonType } from '@app/shared/enums/button-type.enum';
 import { getPasswordStrengthValidator } from '@app/shared/validators/password-strength.validator';
 
@@ -42,21 +49,9 @@ export class AuthFormComponent implements OnChanges {
   formSettings: FomrSettings;
   buttonType = ButtonType;
   authForm: FormGroup;
+  submitted = false;
 
-  constructor() {
-    this.authForm = new FormGroup(
-      {
-        firstName: new FormControl('', [Validators.required]),
-        lastName: new FormControl('', [Validators.required]),
-        email: new FormControl('', [Validators.email, Validators.required]),
-        password: new FormControl('', [
-          Validators.minLength(8),
-          Validators.required,
-        ]),
-      },
-      getPasswordStrengthValidator()
-    );
-  }
+  constructor(private router: Router) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
@@ -65,8 +60,73 @@ export class AuthFormComponent implements OnChanges {
       types[this.authFormType]
     ) {
       this.formSettings = types[this.authFormType];
+
+      if (this.authFormType === 'sign-in') {
+        this.authForm = new FormGroup({
+          email: new FormControl('', [Validators.email, Validators.required]),
+          password: new FormControl('', [
+            Validators.minLength(8),
+            Validators.required,
+          ]),
+        });
+      } else {
+        this.authForm = new FormGroup(
+          {
+            firstName: new FormControl('', [Validators.required]),
+            lastName: new FormControl('', [Validators.required]),
+            email: new FormControl('', [Validators.email, Validators.required]),
+            password: new FormControl('', [
+              Validators.minLength(8),
+              Validators.required,
+            ]),
+          },
+          getPasswordStrengthValidator()
+        );
+      }
     }
   }
 
-  onSubmit(): void {}
+  get firstName() {
+    return this.authForm.get('firstName') as AbstractControl;
+  }
+
+  get lastName() {
+    return this.authForm.get('lastName');
+  }
+  get email() {
+    return this.authForm.get('email');
+  }
+  get password() {
+    return this.authForm.get('password') as AbstractControl;
+  }
+
+  get passwordError() {
+    let text;
+    const errors = this.authForm.errors as ValidationErrors;
+    if (errors['passwordContainsFirstName']) {
+      text = 'Should not contain First Name';
+    } else if (errors['passwordContainsLastName']) {
+      text = 'Should not contain Last Name';
+    } else if (errors['passwordLowerCase']) {
+      text = 'Should have at least 1 lowercase';
+    } else if (errors['passwordUpperCase']) {
+      text = 'Should have at least 1 uppercase';
+    }
+    return text;
+  }
+
+  onSubmit(): void {
+    this.submitted = true;
+    if (this.authForm.valid) {
+    }
+    console.log(this.authForm);
+  }
+
+  onClickSignIn(): void {
+    this.router.navigate(['/sign-in']);
+  }
+
+  onClickSignUp(): void {
+    this.router.navigate(['/sign-up']);
+  }
 }
