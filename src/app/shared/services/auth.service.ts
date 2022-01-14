@@ -110,6 +110,5 @@ export class AuthService extends BaseHttpService {
 }
 
 //to-do:
-// password +  password confirmation
-// after sign up confirmation
 // service and sign-up tests
+// tslint fixes

@@ -1,17 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { SimpleChange } from '@angular/core';
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CoreModule } from '@app/core/core.module';
 
+import { CoreModule } from '@app/core/core.module';
 import { AuthFormComponent } from './auth-form.component';
 
 const inputTesIds = [
