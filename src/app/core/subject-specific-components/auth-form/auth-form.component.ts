@@ -138,7 +138,6 @@ export class AuthFormComponent implements OnChanges {
   onSubmit(): void {
     this.submitClicked = true;
     if (this.authForm.valid) {
-      console.log(this.authForm.value);
       this.submitted.emit(this.authForm.value);
     }
   }

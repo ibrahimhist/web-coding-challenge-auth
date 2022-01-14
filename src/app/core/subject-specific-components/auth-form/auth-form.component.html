@@ -7,9 +7,10 @@
     <div class="auth-form__header">
       <div class="auth-form__header-box">
         <h2 class="auth-form__heading">{{ formSettings?.header }}</h2>
-        <form [formGroup]="authForm">
+        <form *ngIf="authFormType && authForm" [formGroup]="authForm">
           <ng-container *ngIf="authFormType !== 'sign-in'">
             <input
+              data-testid="auth-form-first-name"
               placeholder="*First Name"
               spellcheck="false"
               class="input input--light input--regular"
@@ -18,6 +19,7 @@
               autocomplete="off"
             />
             <mat-error
+              data-testid="auth-form-first-name-error"
               *ngIf="
                 firstName &&
                 firstName.invalid &&
@@ -26,6 +28,7 @@
               >Name is required</mat-error
             >
             <input
+              data-testid="auth-form-last-name"
               placeholder="*Last Name"
               spellcheck="false"
               class="input input--light input--regular"
@@ -34,6 +37,7 @@
               autocomplete="off"
             />
             <mat-error
+              data-testid="auth-form-last-name-error"
               *ngIf="
                 submitClicked &&
                 lastName &&
@@ -45,6 +49,7 @@
           </ng-container>
 
           <input
+            data-testid="auth-form-email"
             placeholder="*Email"
             spellcheck="false"
             type="email"
@@ -54,26 +59,24 @@
             autocomplete="off"
           />
           <mat-error
+            data-testid="auth-form-email-error"
             *ngIf="
               email &&
               email.errors &&
-              email.errors['required'] &&
               (email.dirty || email.touched || submitClicked)
             "
-            >Email is required</mat-error
           >
-
-          <mat-error
-            *ngIf="
-              email &&
-              email.errors &&
-              email.errors['email'] &&
-              (email.dirty || email.touched || submitClicked)
-            "
-            >Email is invalid</mat-error
-          >
+            {{
+              email.errors['required']
+                ? 'Email is required'
+                : email.errors['email']
+                ? 'Email is invalid'
+                : ''
+            }}
+          </mat-error>
 
           <input
+            data-testid="auth-form-password"
             placeholder="*Password"
             type="password"
             spellcheck="false"
@@ -84,6 +87,7 @@
           />
 
           <mat-error
+            data-testid="auth-form-password-error"
             *ngIf="
               password &&
               password.errors &&
@@ -95,6 +99,7 @@
 
           <ng-container *ngIf="authFormType !== 'sign-in'">
             <input
+              data-testid="auth-form-confirm-password"
               placeholder="*Confirm Password"
               type="password"
               spellcheck="false"
@@ -105,6 +110,7 @@
             />
 
             <mat-error
+              data-testid="auth-form-confirm-password-error"
               *ngIf="
                 confirmPassword &&
                 confirmPassword.errors &&
@@ -118,6 +124,7 @@
           </ng-container>
 
           <mat-error
+            data-testid="auth-form-error"
             *ngIf="
               authForm &&
               authForm.errors &&
@@ -132,6 +139,7 @@
 
     <div class="auth-form__btn">
       <app-button
+        data-testid="auth-form-button"
         color="primary"
         [buttonType]="buttonType.Flat"
         [icon]="formSettings?.buttonIcon"
@@ -142,6 +150,7 @@
 
     <div *ngIf="authFormType === 'sign-up'" class="auth-form__btn-extra">
       <app-button
+        data-testid="auth-form-helper-button-sign-in"
         id="sign-in-helper-btn"
         text="Sign In"
         (clicked)="onClickSignIn()"
@@ -149,6 +158,7 @@
     </div>
     <div *ngIf="authFormType === 'sign-in'" class="auth-form__btn-extra">
       <app-button
+        data-testid="auth-form-helper-button-sign-up"
         id="sign-up-helper-btn"
         text="Sign Up"
         (clicked)="onClickSignUp()"
