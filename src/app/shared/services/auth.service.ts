@@ -13,6 +13,7 @@ import { environment } from '../../../environments/environment';
 import { AuthFormModel } from '../models/auth-form.model';
 import { UserProfile } from '../models/user-profile.model';
 import { MessageHandlingService } from './message-handling.service';
+import { LoadingService } from './loading.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +30,8 @@ export class AuthService {
     private router: Router,
     private storageService: StorageService,
     private userService: UserService,
-    private messageHandlingService: MessageHandlingService
+    private messageHandlingService: MessageHandlingService,
+    private loadingService: LoadingService
   ) {
     this.isLoggedInSubject.next(this.isLoggedIn());
   }
@@ -64,12 +66,14 @@ export class AuthService {
 
   signUp(data: AuthFormModel, returnUrl?: string) {
     if (!data) return;
+    this.loadingService.showLoading();
     this.addUser(data).subscribe((response) => {
       if (response) {
         this.storeToken(response._id);
         this.userService.setUser(response);
         this.isLoggedInSubject.next(true);
         this.router.navigate([returnUrl || '/']);
+        this.loadingService.hideLoading();
         this.messageHandlingService.showSuccessMessage(
           'Lets get fun!',
           'Welcome to Challenge App',
@@ -110,7 +114,7 @@ export class AuthService {
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(`${operation} failed: ${error.message}`);
-
+      this.loadingService.hideLoading();
       return of(result as T);
     };
   }

@@ -12,6 +12,7 @@ import { StorageService } from './storage.service';
 import { UserService } from './user.service';
 import { MessageHandlingService } from './message-handling.service';
 import { environment } from 'src/environments/environment';
+import { LoadingService } from './loading.service';
 
 describe('Auth Service', () => {
   let httpTestingController: HttpTestingController;
@@ -21,7 +22,12 @@ describe('Auth Service', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, RouterTestingModule],
-      providers: [StorageService, UserService, MessageHandlingService],
+      providers: [
+        StorageService,
+        UserService,
+        MessageHandlingService,
+        LoadingService,
+      ],
     }).compileComponents();
     httpTestingController = TestBed.inject(HttpTestingController);
     authService = TestBed.inject(AuthService);

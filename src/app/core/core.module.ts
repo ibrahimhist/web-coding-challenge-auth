@@ -9,6 +9,7 @@ import {
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { NgxUiLoaderModule } from 'ngx-ui-loader';
 
 import { MaterialModule } from '@app/shared/modules/material/material.module';
 
@@ -22,6 +23,7 @@ import { AuthFormComponent } from './subject-specific-components/auth-form/auth-
     ReactiveFormsModule,
     MaterialModule,
     FontAwesomeModule,
+    NgxUiLoaderModule,
   ],
   declarations: [CoreComponents, AuthFormComponent],
   exports: [CoreComponents],

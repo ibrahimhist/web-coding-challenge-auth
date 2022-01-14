@@ -3,6 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import {
+  NgxUiLoaderModule,
+  NgxUiLoaderConfig,
+  NgxUiLoaderHttpModule,
+} from 'ngx-ui-loader';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -23,6 +28,12 @@ import { AuthService } from './shared/services/auth.service';
 import { StorageService } from './shared/services/storage.service';
 import { LoginGuard } from './shared/guards/login.guard';
 import { UserService } from './shared/services/user.service';
+import { LoadingService } from './shared/services/loading.service';
+
+const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+  hasProgressBar: false,
+  overlayColor: 'rgba(40,40,40,.1)',
+};
 
 @NgModule({
   declarations: [
@@ -42,6 +53,8 @@ import { UserService } from './shared/services/user.service';
     ReactiveFormsModule,
     HttpClientModule,
     MaterialModule,
+    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+    NgxUiLoaderHttpModule,
     CoreModule,
   ],
   providers: [
@@ -52,6 +65,7 @@ import { UserService } from './shared/services/user.service';
     StorageService,
     LoginGuard,
     UserService,
+    LoadingService,
   ],
   bootstrap: [AppComponent],
 })
