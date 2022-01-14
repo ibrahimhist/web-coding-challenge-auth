@@ -113,7 +113,9 @@ export class AuthService {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error(`${operation} failed: ${error.message}`);
+      this.messageHandlingService.showErrorMessage(
+        `${operation} failed: ${error.message}`
+      );
       this.loadingService.hideLoading();
       return of(result as T);
     };
