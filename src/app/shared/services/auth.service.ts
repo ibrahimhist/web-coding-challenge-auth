@@ -1,9 +1,8 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, catchError, Observable, of } from 'rxjs';
 
-import { BaseHttpService } from './base-http.service';
 import { StorageService } from './storage.service';
 import { UserService } from './user.service';
 
@@ -12,24 +11,26 @@ import { StorageType } from '../enums/storage-type.enum';
 
 import { environment } from '../../../environments/environment';
 import { AuthFormModel } from '../models/auth-form.model';
-import { BaseHttpResponse } from '../models/base-http-response.model';
 import { UserProfile } from '../models/user-profile.model';
 import { MessageHandlingService } from './message-handling.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService extends BaseHttpService {
+export class AuthService {
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
 
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+  };
+
   constructor(
-    protected httpClient: HttpClient,
+    private http: HttpClient,
     private router: Router,
     private storageService: StorageService,
     private userService: UserService,
     private messageHandlingService: MessageHandlingService
   ) {
-    super(httpClient);
     this.isLoggedInSubject.next(this.isLoggedIn());
   }
 
@@ -62,23 +63,11 @@ export class AuthService extends BaseHttpService {
   }
 
   signUp(data: AuthFormModel, returnUrl?: string) {
-    if (
-      !data ||
-      !data.email ||
-      !data.firstName ||
-      !data.lastName ||
-      !data.password
-    )
-      return;
-
-    this.httpPost<UserProfile>(environment.apiUrl + '/users', {
-      ...data,
-      password: btoa(data.password),
-    }).subscribe((response: BaseHttpResponse<UserProfile>) => {
-      if (response.serviceResult.isSuccess) {
-        const result = response.serviceResult.result;
-        this.storeToken(result._id);
-        this.userService.setUser(result);
+    if (!data) return;
+    this.addUser(data).subscribe((response) => {
+      if (response) {
+        this.storeToken(response._id);
+        this.userService.setUser(response);
         this.isLoggedInSubject.next(true);
         this.router.navigate([returnUrl || '/']);
         this.messageHandlingService.showSuccessMessage(
@@ -106,6 +95,24 @@ export class AuthService extends BaseHttpService {
     if (shouldNavigate) {
       this.router.navigate(['/sign-in']);
     }
+  }
+
+  addUser(data: AuthFormModel): Observable<UserProfile> {
+    return this.http
+      .post<UserProfile>(
+        `${environment.apiUrl}/users`,
+        { ...data, password: btoa(data.password) },
+        this.httpOptions
+      )
+      .pipe(catchError(this.handleError<UserProfile>(`addUser`)));
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(`${operation} failed: ${error.message}`);
+
+      return of(result as T);
+    };
   }
 }
 

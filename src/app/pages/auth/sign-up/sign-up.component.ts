@@ -21,14 +21,7 @@ export class SignUpComponent implements OnInit {
 
   onSubmitted(data: AuthFormModel): void {
     const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-    if (
-      data &&
-      data.email &&
-      data.firstName &&
-      data.lastName &&
-      data.password &&
-      data.confirmPassword
-    )
+    if (data && data.email && data.firstName && data.lastName && data.password)
       this.authService.signUp(data, returnUrl);
   }
 }
