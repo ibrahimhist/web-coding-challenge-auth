@@ -14,6 +14,7 @@ import { AuthFormModel } from '../models/auth-form.model';
 import { UserProfile } from '../models/user-profile.model';
 import { MessageHandlingService } from './message-handling.service';
 import { LoadingService } from './loading.service';
+import { RegisterUserModel } from '../models/register-user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -67,7 +68,7 @@ export class AuthService {
   signUp(data: AuthFormModel, returnUrl?: string) {
     if (!data) return;
     this.loadingService.showLoading();
-    this.addUser(data).subscribe((response) => {
+    this.registerUser(data).subscribe((response) => {
       if (response) {
         this.storeToken(response._id);
         this.userService.setUser(response);
@@ -101,11 +102,16 @@ export class AuthService {
     }
   }
 
-  addUser(data: AuthFormModel): Observable<UserProfile> {
+  registerUser(data: RegisterUserModel): Observable<UserProfile> {
     return this.http
       .post<UserProfile>(
         `${environment.apiUrl}/users`,
-        { ...data, password: btoa(data.password) },
+        {
+          email: data.email,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          password: btoa(data.password),
+        } as RegisterUserModel,
         this.httpOptions
       )
       .pipe(catchError(this.handleError<UserProfile>(`addUser`)));

@@ -50,7 +50,7 @@ describe('Auth Service', () => {
       lastName: 'lastName',
     };
 
-    authService.addUser(dummyDataSignUp).subscribe((res) => {
+    authService.registerUser(dummyDataSignUp).subscribe((res) => {
       expect(res).toEqual(response);
     });
 
