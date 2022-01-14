@@ -89,6 +89,10 @@ export class AuthFormComponent implements OnChanges {
               Validators.minLength(8),
               Validators.required,
             ]),
+            confirmPassword: new FormControl('', [
+              Validators.minLength(8),
+              Validators.required,
+            ]),
           },
           getPasswordStrengthValidator()
         );
@@ -110,6 +114,10 @@ export class AuthFormComponent implements OnChanges {
     return this.authForm.get('password') as AbstractControl;
   }
 
+  get confirmPassword() {
+    return this.authForm.get('confirmPassword') as AbstractControl;
+  }
+
   get passwordError() {
     let text;
     const errors = this.authForm.errors as ValidationErrors;
@@ -121,6 +129,8 @@ export class AuthFormComponent implements OnChanges {
       text = 'Should have at least 1 lowercase';
     } else if (errors['passwordUpperCase']) {
       text = 'Should have at least 1 uppercase';
+    } else if (errors['passwordMatch']) {
+      text = 'Password did not match';
     }
     return text;
   }

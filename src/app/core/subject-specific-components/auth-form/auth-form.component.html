@@ -82,6 +82,7 @@
             formControlName="password"
             autocomplete="off"
           />
+
           <mat-error
             *ngIf="
               password &&
@@ -91,6 +92,30 @@
             "
             >Password is required</mat-error
           >
+
+          <ng-container *ngIf="authFormType !== 'sign-in'">
+            <input
+              placeholder="*Confirm Password"
+              type="password"
+              spellcheck="false"
+              class="input input--light input--regular"
+              name="confirmPassword"
+              formControlName="confirmPassword"
+              autocomplete="off"
+            />
+
+            <mat-error
+              *ngIf="
+                confirmPassword &&
+                confirmPassword.errors &&
+                confirmPassword.errors['required'] &&
+                (confirmPassword.dirty ||
+                  confirmPassword.touched ||
+                  submitClicked)
+              "
+              >Confirm Password is required</mat-error
+            >
+          </ng-container>
 
           <mat-error
             *ngIf="

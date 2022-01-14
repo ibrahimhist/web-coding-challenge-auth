@@ -3,13 +3,16 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 export function getPasswordStrengthValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const password = control.value.password;
+    const confirmPassword = control.value.confirmPassword;
+
     const firstName = control.value.firstName.toLocaleLowerCase();
     const lastName = control.value.lastName.toLocaleLowerCase();
 
-    if (!password) {
+    if (!password || !confirmPassword) {
       return null;
     }
 
+    const passwordMatch = password === confirmPassword;
     const hasUpperCase = /[A-Z]+/.test(password);
     const hasLowerCase = /[a-z]+/.test(password);
     const notContainFirstName =
@@ -18,7 +21,11 @@ export function getPasswordStrengthValidator(): ValidatorFn {
       !lastName || password.toLocaleLowerCase().indexOf(lastName) === -1;
 
     const passwordValid =
-      hasUpperCase && hasLowerCase && notContainFirstName && notContainLastName;
+      hasUpperCase &&
+      hasLowerCase &&
+      notContainFirstName &&
+      notContainLastName &&
+      passwordMatch;
 
     return !passwordValid
       ? {
@@ -27,6 +34,7 @@ export function getPasswordStrengthValidator(): ValidatorFn {
           ...(!hasLowerCase && { passwordLowerCase: true }),
           ...(!notContainFirstName && { passwordContainsFirstName: true }),
           ...(!notContainLastName && { passwordContainsLastName: true }),
+          ...(!passwordMatch && { passwordMatch: true }),
         }
       : null;
   };

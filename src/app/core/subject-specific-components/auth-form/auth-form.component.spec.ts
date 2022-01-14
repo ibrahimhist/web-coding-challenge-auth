@@ -50,7 +50,9 @@ describe('AuthFormComponent', () => {
 
   it('should show PasswordContainsLastName error when Password contains last name', () => {});
 
-  it('should show no error when Password is correct format', () => {});
+  it('should show PasswodMatch error when Confirm Password did not match with Password', () => {});
+
+  it('should show no error when Password is correct format and same with Confirm Password', () => {});
 
   it('should show no error when form is valid', () => {});
 
